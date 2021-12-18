@@ -25,7 +25,7 @@ function checkActive($file)
 </li>
 
 <li class="nav-item">
-  <a class="nav-link" href="#">Hasil Perhitungan</a>
+  <a class="nav-link <?= checkActive('calc-result.php') ?>" href="./calc-result.php">Hasil Perhitungan</a>
 </li>
 
 

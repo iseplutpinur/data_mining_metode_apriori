@@ -1,6 +1,23 @@
 <?php
 require_once "./config.php";
-$books = query("SELECT books.*, authors.first_name from books left join authors on books.author_id = authors.id $limit");
+// query
+$books = query("SELECT * from books $limit");
+$transactions = query("SELECT * from `transaction` order by `date`");
+
+
+// books
+$books_result = [];
+foreach ($books as $book) {
+  $books_result[] = array_merge(
+    $book,
+    ['transaction' => Step1($book['id'])]
+  );
+}
+
+$book_step2 = [];
+foreach ($books_result as $book) {
+  # code...
+}
 ?>
 
 <!doctype html>
@@ -31,24 +48,55 @@ $books = query("SELECT books.*, authors.first_name from books left join authors 
     </div>
   </nav>
   <main class="container py-2">
-    <h1 class="h5">Book List</h1>
+
+    <!-- transaksi -->
+    <h1 class="h5">Tabel Transaksi</h1>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th style="width: 10px;">No</th>
+          <th>ID Transaksi</th>
+          <th>Barang Yang Dibeli</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php $number = 1;
+        foreach ($transactions as $transaction) : ?>
+          <tr>
+            <td><?= $number; ?></td>
+            <td><?= $transaction['id']; ?></td>
+            <td>
+              <?php foreach (getTransactionDetail($transaction['id']) as $key => $book) {
+                echo (($key != 0) ? ", " : "") . $book['id'];
+              } ?>
+            </td>
+          </tr>
+        <?php $number++;
+        endforeach; ?>
+      </tbody>
+    </table>
+    <br>
+
+    <!-- langkah 1 -->
+    <h1 class="h5">Langkah 1</h1>
+    <p>Hitung banyaknya transaksi untuk setiap item. </p>
     <table class="table table-hover table-striped">
       <thead>
         <tr>
           <th>No</th>
           <th>BookID</th>
           <th>Nama Buku</th>
-          <th>Author</th>
+          <th>Banyaknya Transaksi</th>
         </tr>
       </thead>
       <tbody>
         <?php $number = 1;
-        foreach ($books as $book) : ?>
+        foreach ($books_result as $book) : ?>
           <tr>
             <td><?= $number; ?></td>
             <td><?= $book['id']; ?></td>
             <td><?= $book['title']; ?></td>
-            <td><?= $book['first_name']; ?></td>
+            <td><?= $book['transaction']; ?></td>
           </tr>
         <?php $number++;
         endforeach; ?>

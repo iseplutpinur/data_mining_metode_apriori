@@ -5,13 +5,16 @@ $conn = mysqli_connect("localhost", "root", "", "data_mining_toko_buku");
 // book ================================================================================================================
 $limit = 10;
 
-// transaction =========================================================================================================
-$book_limit_per_transaction = 10;
-$transaction_total = 100;
-
 // time ================================================================================================================
 $day_total = 7; // max 15
 
+// transaction =========================================================================================================
+$book_limit_per_transaction = 6;
+$transaction_total = 10;
+
+// studi kasus =========================================================================================================
+$percentage = 30; // persen %
+$threshold = (int)($percentage * ($transaction_total / 100));
 
 // function
 function query($query)
@@ -70,6 +73,22 @@ function getTransactionDetail($transaction_id)
   $query = "SELECT book_id as id, b.title from
     transaction_detail as a
     join books as b on a.book_id = b.id
-    where a.transaction_id = $transaction_id";
+    where a.transaction_id = $transaction_id order by a.book_id";
   return query($query);
+}
+
+function Step1($book_id)
+{
+  $query = "SELECT
+                COUNT(DISTINCT(b.transaction_id)) as counts
+            FROM
+                `transaction` AS a
+            JOIN transaction_detail AS b
+            ON
+                a.id = b.transaction_id
+            WHERE
+                b.book_id = '$book_id'";
+  $result = query($query);
+
+  return $result[0]['counts'];
 }

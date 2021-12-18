@@ -37,7 +37,7 @@ $transactions = query("SELECT * from `transaction` order by `date`");
 
       <div class="card my-3">
         <div class="card-header">
-          <h1 class="h5">(<?= $number_head; ?>) | <?= $transaction['date']; ?></h1>
+          <h1 class="h5">(<?= $number_head; ?> | <?= $transaction['id']; ?>) | <?= $transaction['date']; ?></h1>
         </div>
         <div class="card-body">
           <table class="table table-hover table-striped">
