@@ -1,36 +1,16 @@
 <?php
 require_once "./config.php";
-$total_transaction = 0;
-$total_transaction_detail = 0;
 $result_str = "";
 try {
-  for ($day = 1; $day <= $day_total; $day++) {
-    // get transaction per day
-    $mod = ($day == $day_total ? ($transaction_total % $day_total) : 0);
-    $transaction_per_day = floor($transaction_total / $day_total) + $mod;
-
-    // execute transaction
-    for ($i = 1; $i <= $transaction_per_day; $i++) {
-
-      // get transaction header
-      $header = insertHeader($day);
-      $book_sum = rand(1, $book_limit_per_transaction);
-
-      // execute transaction detail
-      for ($j = 1; $j <=  $book_sum; $j++) {
-        $book = getRandomIdBook();
-        insertBody($header, $book);
-        $total_transaction_detail++;
-      }
-      $total_transaction++;
-    }
+  $result = mysqli_query($conn, "delete from transaction");
+  if ($result) {
+    $result_str = "Data Transaksi berhasil di reset";
+  } else {
+    $result_str = "Data Transaksi gagal di reset";
   }
-  $result_str = "Build random data success <br>";
-  $result_str = "$total_transaction Transaction added and $total_transaction_detail Transaction detail added";
 } catch (\Throwable $th) {
-  $result_str = "Build random data failed";
+  $result_str = "Data Transaksi gagal di reset";
 }
-
 
 
 ?>
@@ -64,10 +44,10 @@ try {
             <a class="nav-link" href="#">Features</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="./random-data.php">Generate Random Transaction</a>
+            <a class="nav-link" href="./random-data.php">Generate Random Transaction</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./reset.php">Reset Transaction</a>
+            <a class="nav-link active" href="./reset.php">Reset Transaction</a>
           </li>
         </ul>
       </div>
