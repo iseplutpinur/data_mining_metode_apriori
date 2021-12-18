@@ -7,7 +7,7 @@ $limit = 10;
 
 // transaction =========================================================================================================
 $book_limit_per_transaction = 10;
-$transaction_total = 10;
+$transaction_total = 100;
 
 // time ================================================================================================================
 $day_total = 7; // max 15
@@ -62,4 +62,14 @@ function insertBody($transaction_id, $book_id)
   return mysqli_query($conn, "INSERT INTO `transaction_detail` (`id`, `transaction_id`, `book_id`)
   VALUES
   (NULL, '$transaction_id', '$book_id')");
+}
+
+
+function getTransactionDetail($transaction_id)
+{
+  $query = "SELECT book_id as id, b.title from
+    transaction_detail as a
+    join books as b on a.book_id = b.id
+    where a.transaction_id = $transaction_id";
+  return query($query);
 }

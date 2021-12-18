@@ -1,3 +1,8 @@
+<?php
+require_once "./config.php";
+$books = query("SELECT * from books left join authors on books.author_id = authors.id $limit");
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -8,7 +13,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-  <title>Algoritma Apriori</title>
+  <title>Book List</title>
 </head>
 
 <body>
@@ -26,24 +31,28 @@
     </div>
   </nav>
   <main class="container py-2">
-    <h1 class="h5">Data Mining Algoritma Apriori</h1>
-    <h1 class="h6">Kelompok</h1>
-    <table>
-      <tr>
-        <td>Adistia Ramadhani</td>
-        <td class="px-3"></td>
-        <td>2113191084</td>
-      </tr>
-      <tr>
-        <td>Dara Atria Ferliandini</td>
-        <td class="px-3"></td>
-        <td>2113191</td>
-      </tr>
-      <tr>
-        <td>Isep Lutpi Nur</td>
-        <td class="px-3"></td>
-        <td>2113191079</td>
-      </tr>
+    <h1 class="h5">Book List</h1>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>BookID</th>
+          <th>Nama Buku</th>
+          <th>Author</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php $number = 1;
+        foreach ($books as $book) : ?>
+          <tr>
+            <td><?= $number; ?></td>
+            <td><?= $book['id']; ?></td>
+            <td><?= $book['title']; ?></td>
+            <td><?= $book['first_name']; ?></td>
+          </tr>
+        <?php $number++;
+        endforeach; ?>
+      </tbody>
     </table>
   </main>
   <script src="./assets/js/bootstrap.min.js"></script>

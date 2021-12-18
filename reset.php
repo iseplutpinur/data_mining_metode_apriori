@@ -1,4 +1,5 @@
 <?php
+
 require_once "./config.php";
 $result_str = "";
 try {
@@ -37,18 +38,7 @@ try {
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="./">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./random-data.php">Generate Random Transaction</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="./reset.php">Reset Transaction</a>
-          </li>
+          <?php require_once "./nav.php"; ?>
         </ul>
       </div>
     </div>
